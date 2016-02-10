@@ -15,4 +15,4 @@ angular
           template: "Books!"
       });
       console.log("Config loaded.");
-  };
+  }
