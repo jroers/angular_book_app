@@ -3,11 +3,14 @@ angular
   .controller('BooksController', BooksController);
 
 function BooksController (Book) {
+  vm = this;
+
   this.newBook = {};
   this.books = Book.query(); // returns all the books
   this.createBook = createBook;
   this.updateBook = updateBook;
   this.deleteBook = deleteBook;
+  this.showEditForm = false;
 
   function updateBook(book) {
     Book.update({id: book._id}, book);
@@ -15,9 +18,13 @@ function BooksController (Book) {
   }
 
   function createBook(){
-    Book.save(this.newBook);
-    // TODO: clear the form!
-    // TODO: display the new book in the list of books!
+    Book.save(this.newBook)
+    .then(function successCallback(response) {
+        // this callback will be called asynchronously
+        // when the response is available
+        vm.books = Book.query();
+      });
+    this.newBook = {};
   }
 
   function deleteBook(book) {
