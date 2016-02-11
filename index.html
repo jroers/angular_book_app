@@ -26,7 +26,7 @@
 
 
 </head>
-<body>
+<body ng-controller="BooksController as bc">
   <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -47,11 +47,39 @@
       </ul>
   </div><!-- /.container-fluid -->
   </nav>
-
-
+  
+  <input type="text" ng-model="bc.newBook.title" placeholder="Title"><br>
+  <input type="text" ng-model="bc.newBook.author" placeholder="Author"><br>
+  <input type="text" ng-model="bc.newBook.image"  placeholder="www.image.url/your_image_here/"><br>
+  <button class="btn btn-success" ng-click="bc.createBook()">Save New Book!</button>
+    
   <div class="container">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-12" ng-repeat="book in bc.books">
+          
+          <div class="header col-md-12">
+            <h3>{{ book.title }}</h3>
+          </div>
+          <div class="body col-md-4">
+            <img class="judgement" src="{{ book.image }}">
+          </div>
+          <div class="body col-md-8">
+            <p ng-show="!book.showEditForm"><strong>{{ book.title }}</strong> by {{ book.author }}</p>
+            <form ng-show="book.showEditForm">
+              <input type="text" ng-model="book.title"><br>
+              <input type="text" ng-model="book.author"><br>
+              <input type="text" ng-model="book.image"><br>
+              <button class="btn btn-success" ng-show="book.showEditForm" ng-click="book.showEditForm = !book.showEditForm; bc.updateBook(book)">Save</button>
+            </form>
+              
+          </div>
+          <div class="footer col-md-12">
+            <button class="btn btn-primary" ng-show="!book.showEditForm" ng-click="book.showEditForm = !book.showEditForm">Edit</button>
+            <button class="btn btn-primary" ng-show="book.showEditForm" ng-click="book.showEditForm = !book.showEditForm">Cancel</button>
+            <button class="btn btn-danger" ng-click="bc.deleteBook(book)">Delete</button>
+          </div>
+        </div>
 
         <!-- TODO: Display crud-able list of books -->
 
